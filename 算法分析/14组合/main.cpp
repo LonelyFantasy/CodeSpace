@@ -1,0 +1,53 @@
+#include <iostream>
+#include <time.h>
+int tail = 0; //结果前缀数组有效数据下标
+/*测试生成用例*/
+void create_num(int arr[], int n) //随机生成1-n内顺序数组
+{
+    for (int i = 1; i <= n; i++)
+        arr[i - 1] = i;
+}
+void redata(int tail) //重置全局变量
+{
+    tail = 0;
+}
+/*结束*/
+
+void combination(int arr[], int results[], int length, int n, int m)
+{
+    int i = 0;
+    if (length > n) // 递归超出n时递归结束
+        return;
+    if (tail == m) // 找到结果并打印，递归结束
+    {
+        for (i = 0; i < m; i++)
+        {
+            printf("%d", results[i]);
+        }
+        printf("\n");
+        return;
+    }
+
+    results[tail++] = arr[length];
+    combination(arr, results, length + 1, n, m); //向下一级递归
+    tail--;
+    combination(arr, results, length + 1, n, m); //向下一级递归
+}
+
+int main()
+{
+    int n, i;
+    scanf("%d", &n);
+    while (n > 0)
+    {
+        int *data = new int[n];   //动态排序数组长度
+        int *result = new int[n]; //保存已经找到的结果前缀数组
+        create_num(data, n);
+        printf("所有组合结果：\n");
+        for (int i = 1; i <= n; i++)
+            combination(data, result, 0, n, i);
+        scanf("%d", &n);
+        redata(tail);
+    }
+    return 0;
+}
