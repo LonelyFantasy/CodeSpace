@@ -121,6 +121,5 @@ int insertKey(struct hashTable* h, int key)
 int main()
 {
     struct hashTable* h = initHashTable_linear();
-    //printf("%d\n",h->maxNum);
     printHashTable(h);
 }

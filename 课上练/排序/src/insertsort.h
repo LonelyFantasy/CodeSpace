@@ -40,8 +40,6 @@ void printLink(linkObject *Head)
  要求每趟排序后 调用print函数，输出关键字的排列情况*/
 void insertSort(SortObject *Rec)
 {
-
-  /*----begin------*/
   SortObject *cur = Rec;
   int i, j;
   int temp;
@@ -54,7 +52,6 @@ void insertSort(SortObject *Rec)
       cur->data[j + 1] = temp;
     print(Rec);
   }
-  /*-----end------*/
 }
 
 /*第二关
@@ -63,7 +60,6 @@ void insertSort(SortObject *Rec)
   要求每趟排序后 调用print函数，输出关键字的排列情况*/
 void binInsertSort(SortObject *Rec)
 {
-  /*----begin------*/
   int head, middile, tail, i, j, temp;
   int *cur_data = Rec->data;
   for (i = 1; i < Rec->NUM; i++)
@@ -85,7 +81,6 @@ void binInsertSort(SortObject *Rec)
       cur_data[head] = temp;
     print(Rec);
   }
-  /*-----end------*/
 }
 
 /* 第四关
@@ -149,4 +144,3 @@ void listSort(linkObject *plist)
     printLink(plist);
   }
 }
-//8 49 38 65 97 13 76 27 49
