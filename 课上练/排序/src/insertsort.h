@@ -144,25 +144,3 @@ void listSort(linkObject *plist)
     printLink(plist);
   }
 }
-
-/*起泡排序*/
-void bubbleSort(SortObject *Rec)
-{
-  int i, j, nowswap, temp, *data = Rec->data;
-  for (i = 0; i < Rec->NUM - 1; i++)
-  {
-    nowswap = true;
-    for (j = 0; j < Rec->NUM - i - 1; j++)
-    {
-      if (data[j] > data[j + 1])
-      {
-        temp = data[j];
-        data[j] = data[j + 1];
-        data[j + 1] = temp;
-        nowswap = false;
-      }
-      if (nowswap)
-        break;
-    }
-  }
-}
