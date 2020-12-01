@@ -8,8 +8,6 @@ struct node
 	int coef;		   //表示系数
 	struct node *next; //指向下一个结点的指针
 };
-//5 0 2 1 3 5 -2 7 0 0 12 1 2 7 13 15 0 0
-//6 -1 5 0 7 9 0 0 -15 -2 9 9 18 12 0 0
 typedef struct node *PNODE;
 
 /*
@@ -22,7 +20,6 @@ PNODE createPoly(void)
 {
 	//在此处填写代码，能实现创建一个多项式并返回多项式头指针的函数
 	//注意：头指针不存放多项式的项。
-	/**********  Begin **********/
 	int exp, coef, cur;
 	struct node *head, *p1, *p2;
 	head = (PNODE)malloc(sizeof(PNODE));
@@ -56,7 +53,6 @@ PNODE createPoly(void)
 		scanf("%d", &exp);
 	}
 	return head;
-	/**********  End  **********/
 }
 
 /*
@@ -68,7 +64,6 @@ PNODE createPoly(void)
 PNODE addPoly(PNODE polyAddLeft, PNODE polyAddRight)
 {
 	//在此处填写代码，能实现创两个多项式相加并返回结果多项式头指针的函数
-	/**********  Begin **********/
 	struct node *head, *p1, *p2;
 	int i;
 	head = (PNODE)malloc(sizeof(PNODE));
@@ -101,7 +96,6 @@ PNODE addPoly(PNODE polyAddLeft, PNODE polyAddRight)
 			polyAddRight = polyAddRight->next;
 	} while (polyAddLeft != NULL || polyAddRight != NULL);
 	return head;
-	/**********  End **********/
 }
 
 /*
@@ -113,7 +107,6 @@ PNODE addPoly(PNODE polyAddLeft, PNODE polyAddRight)
 void printPoly(PNODE poly)
 {
 	//在此处填写代码，能实现按格式输出多项式的功能，输出格式样例见说明
-	/**********  Begin **********/
 	poly = poly->next;
 		do
 		{
@@ -128,7 +121,6 @@ void printPoly(PNODE poly)
 			if (poly == NULL)
 				break;
 		} while (poly != NULL);
-	/**********  End **********/
 }
 
 void destroyPoly(PNODE poly)

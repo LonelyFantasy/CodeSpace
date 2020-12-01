@@ -6,8 +6,6 @@ using namespace std;
 typedef char DataType;
 
 //二叉树结点定义
-//此处进行二叉树结构定义
-/*-------begin------*/
 struct node
 {
     DataType info;
@@ -15,7 +13,6 @@ struct node
 };
 
 typedef struct node *BiTree;
-/*-----end---------*/
 
 void print(DataType d)
 {
@@ -35,8 +32,6 @@ int i;//全局变量i用于将序列依次写入二叉树
 BiTree createBiTree()
 {
     //请在此处填写代码，完成创建二叉树并返回二叉树根结点指针的功能
-    /*-------begin--------*/
-
     BiTree tree;
     DataType ch;
     ch = treeData[i];
@@ -56,7 +51,6 @@ BiTree createBiTree()
         tree->rchild = createBiTree(); //构造右子树
     }
     return tree;
-    /*-------end--------*/
 }
 
 void Sibling(BiTree T)

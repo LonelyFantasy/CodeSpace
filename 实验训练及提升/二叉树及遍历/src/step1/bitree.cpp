@@ -26,8 +26,6 @@ void print(DataType d)
 */
 BiTree *createBiTree()
 {
-    //请在此处填写代码，完成创建二叉树并返回二叉树根结点指针的功能
-    /*-------begin--------*/
     DataType ch;
     cin >> ch;
     ptree Tree;
@@ -41,7 +39,6 @@ BiTree *createBiTree()
         Tree->rchild = createBiTree();
     }
     return Tree;
-    /*-------end--------*/
 }
 
 /*
@@ -52,14 +49,11 @@ BiTree *createBiTree()
 */
 void preOrder(BiTree *T)
 {
-    //请在此处填写代码，完成先根遍历二叉树功能
-    /*-------begin--------*/
     if (T == NULL)
         return;
     print(T->data);
     preOrder(T->lchild);
     preOrder(T->rchild);
-    /*-------end--------*/
 }
 
 /*
@@ -70,15 +64,11 @@ void preOrder(BiTree *T)
 */
 void inOrder(BiTree *T)
 {
-    //请在此处填写代码，完成中根遍历二叉树功能
-    /*-------begin--------*/
     if (T == NULL)
         return;
     inOrder(T->lchild);
     print(T->data);
     inOrder(T->rchild);
-
-    /*-------end--------*/
 }
 
 /*
@@ -89,21 +79,17 @@ void inOrder(BiTree *T)
 */
 void postOrder(BiTree *T)
 {
-    //请在此处填写代码，完成后根遍历二叉树功能
-    /*-------begin--------*/
-	if (T == NULL)
-		return;
-	postOrder(T->lchild);
-	postOrder(T->rchild);
-	print(T->data);
-    /*-------end--------*/
+    if (T == NULL)
+        return;
+    postOrder(T->lchild);
+    postOrder(T->rchild);
+    print(T->data);
 }
 
 int main(void)
 {
     BiTree *T;
     T = createBiTree(); //调用创建二叉树功能，得到二叉树的根结点指针
-
     preOrder(T);  //调用先根遍历二叉树，按先根遍历顺序输出二叉树结点功能
     cout << endl; //换行
     inOrder(T);   //调用中根遍历二叉树，按中根遍历顺序输出二叉树结点功能

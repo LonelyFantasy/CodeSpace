@@ -23,18 +23,14 @@ typedef struct queueRecord *PLinkQueue;
 PLinkQueue createEmptyQueue_link()
 {
     //创建一个空队列，实质：生成一个LINKQUEUE类型的结点，并给front和rear成员赋值
-    //请在此处填写代码，完成相应功能
-    /*-------begin----------*/
     PLinkQueue queue = (PLinkQueue)malloc(sizeof(struct queueRecord));
     queue->front = NULL;
     queue->rear = NULL;
     return queue;
-    /*-------end----------*/
 }
 
 int isEmptyQueue_link(PLinkQueue queue)
 {   //判定队列是否为空，实质： 看队列的front指针是否为空，若为空，则队列为空
-    //请在此处填写代码，完成相应功能
     /*-------begin----------*/
     if (queue->front == NULL)
         return 1;
@@ -46,8 +42,6 @@ int isEmptyQueue_link(PLinkQueue queue)
 void enQueue_link(DataType x, PLinkQueue queue)
 {
     //将数据元素x插入队尾。实质：生成一个struct node类型的结点，并给相应成员赋值后插入队尾
-    //请在此处填写代码，完成相应功能
-    /*-------begin----------*/
     PseqQueue temp = (PseqQueue)malloc(sizeof(struct node));
     temp->info = x;
     temp->next = NULL;
@@ -61,14 +55,11 @@ void enQueue_link(DataType x, PLinkQueue queue)
         queue->rear->next = temp;
         queue->rear = temp; //更新队尾
     }
-    /*-------end----------*/
 }
 
 void enQueue_link(QueueData *p, PLinkQueue Q)
 {
     //本函数的功能是将 struct node 类型的结点插入队尾，与enQueue_link(DataType x, PLinkQueue queue)的区别是，不需要生成结点
-    //请在此处填写代码，完成相应功能
-    /*-------begin----------*/
     if (Q->rear)
     {
         Q->rear->next = p;
@@ -79,22 +70,18 @@ void enQueue_link(QueueData *p, PLinkQueue Q)
         Q->front = p;
         Q->rear = p;
     }
-    /*-------end----------*/
 }
 
 DataType deQueue_link(PLinkQueue Q)
 {
     //出队，实质： 取出Q队列的队首结点，返回该结点的数据元素，并将该结点使用enQueue_link(QueueData *p,PLinkQueue Q)插入队尾
     //本函数为针对本实验特殊设计，可实现秘钥的循环使用
-    //请在此处填写代码，完成相应功能
-    /*-------begin----------*/
     int num;
     num = Q->front->info;
     PseqQueue temp = Q->front;
     Q->front = Q->front->next;
     enQueue_link(temp, Q);
     return num;
-    /*-------end----------*/
 }
 
 int decrypt(char src[], char key[], char dest[])
@@ -146,7 +133,7 @@ int decrypt(char src[], char key[], char dest[])
     dest[i] = '\0';
     return 1;
 }
-//hello 1357    ihqsp
+
 int main(void)
 {
     char src[80], key[20], dest[80];
