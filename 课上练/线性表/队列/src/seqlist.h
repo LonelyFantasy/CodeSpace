@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#
+
 /*此处是顺序队列数据结构定义*/
 typedef int DataType;
 struct seqQueue //请完成数据结构定义
