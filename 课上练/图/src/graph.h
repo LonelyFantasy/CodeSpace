@@ -307,7 +307,6 @@ void Top_list(GraphList *G)
 void Prim_list(GraphList *G)
 {
     int read_node[N] = {0}, i, j, enter_node[N] = {0};
-
 }
 /*第七关 Kruskal算法生成最小生成树*/
 
@@ -319,4 +318,61 @@ void Kruskal_list(GraphList *G)
 
 void Dijkstra_list(GraphList *G)
 {
+}
+
+void ShortestPath(int start)
+{
+    int dist[N]; //用于存放顶点0到其余各顶点的最短路径
+    int i;
+    int visit[N]; //用于表示该顶点加入到最短集合
+
+    visit[0] = 1; //初始化顶点0加入集合
+    dist[0] = 0;  //初始化顶点0到自身距离0
+    for (i = 1; i < N; i++)
+    {
+        visit[i] = 0;
+        dist[i] = 8888;
+    } //初始化 其余各顶点未加入最短集合以及初始化初始路径为最大值
+
+    PrintDist(dist); //输出当前路径情况，便于调试
+
+    //	本段代码用于初始化顶点0到能到达顶点的距离的赋值
+
+    struct node *p, *q;
+
+    p = Ndata[0].next;
+    minvalue = 8888;
+    while (p)
+    {
+        dist[p->data] = p->value;
+        p = p->next;
+    }
+
+    int count = 0; //用于记录集合中顶点数
+    int minvalue, minvex;
+
+    while (count < N)
+    {
+        PrintDist(dist);
+        cout << endl;
+
+        minvalue = 8888;
+        for (i = 1; i < N; i++)
+            if (minvalue > dist[i] && visit[i] == 0)
+            {
+                minvalue = dist[i];
+                minvex = i;
+            } //获取本轮dist中最小的路径及顶点
+
+        visit[minvex] = 1;
+
+        q = Ndata[minvex].next;
+        while (q)
+        {
+            if (dist[q->data] > dist[minvex] + q->value)
+                dist[q->data] = dist[minvex] + q->value;
+            q = q->next;
+        }
+        count++;
+    }
 }
