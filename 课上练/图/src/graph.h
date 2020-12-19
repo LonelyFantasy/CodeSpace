@@ -77,7 +77,7 @@ GraphList *initGraphList()
 {
     /*第一行输入图的类型、图的顶点数和边数，第二行输入各条边的两顶点的编号，按顶点编号从小到大的顺序输入。
 输出邻接表。不需考虑输入的数字非法情况，输入顶点的信息*/
-    int line, i, j, count, m, n, tmp;
+    int line, i, j, count, m, n, tmp, weight;
     char in, out;
     GraphList *current = (GraphList *)malloc(sizeof(GraphList));
     scanf("%d%d%d", &current->type, &current->vcount, &line);
@@ -86,6 +86,7 @@ GraphList *initGraphList()
     {
         scanf("%c", &current->vexs[i].vertex);
         current->vexs[i].edgelist = NULL;
+        current->vexs[i].degree = 0; //入度初始化未0
     }
     for (i = 0; i < line; i++)
     { //点与点信息录入
@@ -93,6 +94,7 @@ GraphList *initGraphList()
         scanf("%c", &in);
         getchar();
         scanf("%c", &out);
+        scanf("%d", &weight);
         count = 0;
         for (j = 0;; j++)
         { //标记起点终点位置
@@ -119,14 +121,16 @@ GraphList *initGraphList()
                     current->vexs[m].edgelist = (EdgeList)malloc(sizeof(struct EdgeNode));
                     current->vexs[m].edgelist->nextedge = NULL;
                     current->vexs[m].edgelist->endvex = n;
-                    current->vexs[m].edgelist->weight = 0; //默认权为0
+                    current->vexs[m].edgelist->weight = weight;
+                    //current->vexs[m].edgelist->weight = weight; //默认权为0
                 }
                 else
                 {
                     EdgeList node = (EdgeList)malloc(sizeof(struct EdgeNode));
                     node->nextedge = current->vexs[m].edgelist;
                     node->endvex = n;
-                    node->weight = 0; //默认权为0
+                    node->weight = weight;
+                    //node->weight = 0; //默认权为0
                     current->vexs[m].edgelist = node;
                 }
                 tmp = m, m = n, n = tmp;
@@ -139,15 +143,17 @@ GraphList *initGraphList()
                 current->vexs[m].edgelist = (EdgeList)malloc(sizeof(struct EdgeNode));
                 current->vexs[m].edgelist->nextedge = NULL;
                 current->vexs[m].edgelist->endvex = n;
-                current->vexs[m].edgelist->weight = 0; //默认权为0
+                current->vexs[m].edgelist->weight = weight;
+                current->vexs[n].degree++;
             }
             else
             {
                 EdgeList node = (EdgeList)malloc(sizeof(struct EdgeNode));
                 node->nextedge = current->vexs[m].edgelist;
                 node->endvex = n;
-                node->weight = 0; //默认权为0
+                node->weight = weight;
                 current->vexs[m].edgelist = node;
+                current->vexs[n].degree++;
             }
         }
     }
@@ -300,13 +306,71 @@ void DFS_list(GraphList *G)
 
 void Top_list(GraphList *G)
 {
+    int node_read[N] = {0};
+    int flag = 0;
+    for (int i = 0; i < G->vcount; i++)
+    {
+        if (G->vexs[i].degree == 0 && node_read[i] == 0)
+        {
+            flag = 1;
+            node_read[i] = 1;
+            printf("%d ", i);
+            struct EdgeNode *p = G->vexs[i].edgelist;
+            while (p)
+            {
+                G->vexs[p->endvex].degree--;
+                p = p->nextedge;
+            }
+        }
+        if (flag == 1)
+        {
+            i = 0;
+            flag = 0;
+        }
+    }
 }
 
 /*第六关 prim算法生成最小生成树*/
 
 void Prim_list(GraphList *G)
 {
-    int read_node[N] = {0}, i, j, enter_node[N] = {0};
+    int vex[N], node_read[N], i, j, k, curnum = 0, start = 0;
+    struct EdgeNode *p;
+    int minvalue, minvex;
+    for (i = 0; i < G->vcount; i++)
+        node_read[i] = 0;
+    vex[0] = start;
+    node_read[start] = 1;
+    while (curnum < G->vcount - 1)
+    {
+        minvalue = 8888;
+        minvex = -1;
+        k = -1;
+        for (i = 0; i <= curnum; i++)
+        {
+            p = G->vexs[vex[i]].edgelist;
+            if (p && minvex == -1)
+            {
+                minvex = p->endvex;
+                if (k == -1)
+                    k = vex[i];
+            }
+            while (p) //让当前顶点所连的
+            {
+                if (p->weight < minvalue && node_read[p->endvex] == 0)
+                {
+                    minvalue = p->weight;
+                    minvex = p->endvex;
+                    k = vex[i];
+                }
+                p = p->nextedge;
+            }
+        }
+        curnum++;
+        vex[curnum] = minvex;
+        node_read[minvex] = 1;
+        printf("%d %d\n", k, minvex);
+    }
 }
 /*第七关 Kruskal算法生成最小生成树*/
 
@@ -318,61 +382,4 @@ void Kruskal_list(GraphList *G)
 
 void Dijkstra_list(GraphList *G)
 {
-}
-
-void ShortestPath(int start)
-{
-    int dist[N]; //用于存放顶点0到其余各顶点的最短路径
-    int i;
-    int visit[N]; //用于表示该顶点加入到最短集合
-
-    visit[0] = 1; //初始化顶点0加入集合
-    dist[0] = 0;  //初始化顶点0到自身距离0
-    for (i = 1; i < N; i++)
-    {
-        visit[i] = 0;
-        dist[i] = 8888;
-    } //初始化 其余各顶点未加入最短集合以及初始化初始路径为最大值
-
-    PrintDist(dist); //输出当前路径情况，便于调试
-
-    //	本段代码用于初始化顶点0到能到达顶点的距离的赋值
-
-    struct node *p, *q;
-
-    p = Ndata[0].next;
-    minvalue = 8888;
-    while (p)
-    {
-        dist[p->data] = p->value;
-        p = p->next;
-    }
-
-    int count = 0; //用于记录集合中顶点数
-    int minvalue, minvex;
-
-    while (count < N)
-    {
-        PrintDist(dist);
-        cout << endl;
-
-        minvalue = 8888;
-        for (i = 1; i < N; i++)
-            if (minvalue > dist[i] && visit[i] == 0)
-            {
-                minvalue = dist[i];
-                minvex = i;
-            } //获取本轮dist中最小的路径及顶点
-
-        visit[minvex] = 1;
-
-        q = Ndata[minvex].next;
-        while (q)
-        {
-            if (dist[q->data] > dist[minvex] + q->value)
-                dist[q->data] = dist[minvex] + q->value;
-            q = q->next;
-        }
-        count++;
-    }
 }
